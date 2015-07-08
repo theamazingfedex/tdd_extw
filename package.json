@@ -1,0 +1,17 @@
+{
+  "name": "semgit",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "semgit": "index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Wood",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^3.0.0",
+    "cltags": "0.0.2"
+  }
+}
