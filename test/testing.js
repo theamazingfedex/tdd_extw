@@ -24,7 +24,6 @@ describe("Tags", function(){
 	it("should load the filename and return the obj representation", function(done){
 	    setTimeout(function(){
 	    vargs.loadFile("package.json", function(result){
-		console.log("result === " + result);
 		    expect(result).to.exist;
     		});
 	    done();
@@ -32,25 +31,24 @@ describe("Tags", function(){
 	}); 
     });
 
-    describe("#saveFile(data, filename, done)", function(){
-	it("should save the file and return true if successful", function(done){
-	    var data = vargs.loadFile("package.json", function(result){
-		setTimeout(function(){
-		    vargs.saveFile(data, "package.json", function(result){
-			expect(result).to.be.true;
-		    });
-		},200);
-	    });
-		    done();
-	    
-	});
-    });
 
-    describe("#bumpVersion(data, done)", function(){
+
+    describe("#bumpVersion(data, version, done)", function(){
 	it("should bump the package version by values passed in", function(done){
-	    var data = vargs.loadFile("package.json", function(err
+	    var data = vargs.loadFile("package.json", function(result1){
+		var version = {"major":4, "minor":2, "patch":1};
+		console.log("version bumped data:: " + result1);
+		setTimeout(function(){
+		    vargs.bumpVersion(result1, version, function(result){
+			expect(result).to.be.above(result1.version);
+			console.log("Data.updatedVersion:: " + result.version);
+		    });
+		    done();
+		}, 200);
+	    });
 	});
     });
+    
 
 
 });

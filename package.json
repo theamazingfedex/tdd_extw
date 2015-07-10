@@ -1,17 +1,27 @@
 {
-  "name": "semgit",
+  "name": "SemVerGitUpdater",
   "version": "1.0.0",
-  "description": "",
-  "bin": {
-    "semgit": "index.js"
+  "description": "none here",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
   },
+  "dependencies": {
+    "chai": "^3.0.0",
+    "cltags": "^0.0.2"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theamazingfedex/tdd_extw.git"
+  },
   "author": "Daniel Wood",
   "license": "ISC",
-  "dependencies": {
-    "chai": "^3.0.0",
-    "cltags": "0.0.2"
-  }
+  "bugs": {
+    "url": "https://github.com/theamazingfedex/tdd_extw/issues"
+  },
+  "homepage": "https://github.com/theamazingfedex/tdd_extw"
 }
