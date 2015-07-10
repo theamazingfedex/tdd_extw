@@ -1,13 +1,29 @@
-var semver = require("./lib/argparser.js");
-import * as semver from "./lib/argparser.js";
+import {parseArgs, loadFile, saveFile, bumpVersion} from "./lib/argparser.js";
 /***
 launch this app from the command line.
 use the following parameters to update the version following semver guidelines as desired:
-  -M : --Major : Major version
+ SemVer Standards: 1.0.2 : Major.Minor.Patch
+  -M : --major : Major version
+  -m : --minor : Minor version
+  -p : -P : --patch : Patch version
 ***/
-function startApp(){
-    var version = semver.parseArgs(process.argv);
-    var filename = "package.json";
+var version = "0.0.0";
+var filename = "package.json";
 
-    
-}
+//Initializes the application
+() =>
+    {
+    parseArgs(process.argv, (results) => {
+	version = results;
+    });
+    loadFile(filename, (results) => {
+	bumpVersion(results, version, (results2) => {
+	    saveFile(results2, filename, (results) => {
+		if (results)
+		    console.err(`failed to bump the module version to ${version}`);
+		else
+		    console.log(`succeeded in bumping the module version to ${version}`);
+	    });
+	});
+    });
+    }
