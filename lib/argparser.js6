@@ -1,0 +1,70 @@
+import {parse} from "cltags";
+import {writeFile, exists, stat, open, read, close} from "fs";
+
+let defaults = {
+    major:-1,
+    minor:-1,
+    patch:-1,
+    repository: ""
+};
+let replacements = {
+    "M":"major",
+    "m":"minor",
+    "p":"patch",
+    "P":"patch",
+    "r":"repository",
+    "R":"repository"
+};
+
+let parseArgs = (args, done) => {
+    var targs = ["bogus"].concat(args);
+    var results = parse(targs, defaults, replacements);
+    return done(results);
+};
+
+let saveFile = (data, filename, done) => {
+    writeFile(filename, data, (err) => {
+        if (err) {
+            return done(false);
+        }
+	return done(true);
+    });
+};
+
+let loadFile = (filename, done) => {
+    
+    exists(filename, (exists) => {
+    if (exists) {
+        stat(filename, (error, stats) => {
+            open(filename, "r", (error, fd) => {
+                var buffer = new Buffer(stats.size);
+	read(fd, buffer, 0, buffer.length, null, (error, bytesRead, buffer) => {
+            var data = buffer.toString("utf8", 0, buffer.length);
+	    data = JSON.parse(data);
+            close(fd);
+	    return done(data);
+		    
+                });
+            });
+        });
+    }
+    });
+};
+
+let bumpVersion = (data, newversion, done) => {
+
+    var results = data.version.split(".");
+    if (newversion.major >= 0)
+	results[0] = newversion.major;
+    if (newversion.minor >= 0)
+	results[1] = newversion.minor;
+    if (newversion.patch >= 0)
+	results[2] = newversion.patch;
+    if (newversion.patch == -1)
+	results[2] = +results[2]+1;
+    data.version = `${results[0]}.${results[1]}.${results[2]}`;
+    return done(data);
+};
+
+
+export parseArgs, saveFile, loadFile, bumpVersion;
