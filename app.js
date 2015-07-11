@@ -7,8 +7,8 @@ use the following parameters to update the version following semver guidelines a
   -m : --minor : Minor version
   -p : -P : --patch : Patch version
 ***/
-var version = "0.0.0";
-var filename = "package.json";
+let version = "0.0.0";
+let filename = "package.json";
 
 //Initializes the application
 () =>

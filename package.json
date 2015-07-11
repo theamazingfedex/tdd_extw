@@ -3,7 +3,7 @@
   "version": "1.0.0",
     "description": "none here",
     "bin":{
-	"esbumpit":"index.js"
+	"esbump":"index.js"
     },
   "directories": {
     "test": "test"
