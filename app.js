@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 import {parseArgs, loadFile, saveFile, bumpVersion} from "./lib/argparser.js";
 /***
 launch this app from the command line.
@@ -12,7 +14,7 @@ let filename = "package.json";
 
 //Initializes the application
 () =>
-    {
+{
     parseArgs(process.argv, (results) => {
 	version = results;
     });
@@ -26,4 +28,5 @@ let filename = "package.json";
 	    });
 	});
     });
-    }
+    
+}

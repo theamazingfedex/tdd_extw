@@ -1,5 +1,7 @@
+
 import {parse} from "cltags";
 import {writeFile, exists, stat, open, read, close} from "fs";
+import * as shell from "shelljs/global";
 
 let defaults = {
     major:-1,
@@ -66,3 +68,8 @@ export var bumpVersion = (data, newversion, done) => {
     return done(data);
 };
 
+export var commitToLocalGit = (message, done) => {
+
+    let command = `git commit -a -m "ESBump commit: ${message}"`;
+    shell.exec(command);
+};

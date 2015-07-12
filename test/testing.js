@@ -1,15 +1,15 @@
 var expect = require("chai").expect;
-var vargs = require("../lib/argparser.js");
+var bumper = require("../lib/argparser.js");
 
 
-describe("Tags", function(){
+describe("ESBump", function(){
     describe("#parseArgs()", function(){
         it("should parse args to returned object", function(done){
             var args = ["-M=65","--major=4", "-m=2", "-p=1"];
 	    setTimeout(function(){
 		
 	    
-            var results = vargs.parseArgs(args, function(results){
+            var results = bumper.parseArgs(args, function(results){
 
 		expect(results).to.have.a.property("major", 4);
 		expect(results).to.have.a.property("minor", 2);
@@ -23,7 +23,7 @@ describe("Tags", function(){
     describe("#loadFile(filename)", function(){
 	it("should load the filename and return the obj representation", function(done){
 	    setTimeout(function(){
-	    vargs.loadFile("package.json", function(result){
+	    bumper.loadFile("package.json", function(result){
 		    expect(result).to.exist;
     		});
 	    done();
@@ -35,11 +35,11 @@ describe("Tags", function(){
 
     describe("#bumpVersion(data, version, done)", function(){
 	it("should bump the package version by values passed in", function(done){
-	    var data = vargs.loadFile("package.json", function(result1){
+	    var data = bumper.loadFile("package.json", function(result1){
 		var version = {"major":4, "minor":2, "patch":1};
 		console.log("version bumped data:: " + result1);
 		setTimeout(function(){
-		    vargs.bumpVersion(result1, version, function(result){
+		    bumper.bumpVersion(result1, version, function(result){
 			expect(result).to.be.above(result1.version);
 			console.log("Data.updatedVersion:: " + result.version);
 		    });
@@ -48,15 +48,27 @@ describe("Tags", function(){
 	    });
 	});
     });
-    
 
+    describe("#commitToLocalGit(message, done)"), function(){
+	ít("should commit changes with the provided message to the local git repo", function(done){
+	    setTimeout(function(){
+		vargs.commitToLocalGit("updating with ESBump to newest version", function(results){
+		    expect(results).to.exist;
+		});
+		done();
+	    }, 200);
+	});
+    });
+    describe("#addGitTag(tagMessage, done)"), function(){
+	it("should add a git tag to the local repository with the tagID", function(done){
+	    setTimeout(function(){
+		vargs.addGitTag(tagMessage, function(results){
+		    expect(results).to.exist;
+		});
+		done();
+	    }, 200);
+	});
+    });
 
 });
-function check(done, f){
-    try {
-	f();
-	done();
-    } catch (e) {
-	done(e);
-    }
-}
+
