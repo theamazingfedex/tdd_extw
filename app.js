@@ -1,6 +1,8 @@
 #! /usr/bin/env node
+"use strict";
 
-import {parseArgs, loadFile, saveFile, bumpVersion} from "./lib/argparser.js";
+var _libArgparserJs = require("./lib/argparser.js");
+
 /***
 launch this app from the command line.
 use the following parameters to update the version following semver guidelines as desired:
@@ -9,24 +11,19 @@ use the following parameters to update the version following semver guidelines a
   -m : --minor : Minor version
   -p : -P : --patch : Patch version
 ***/
-let version = "0.0.0";
-let filename = "package.json";
+var version = "0.0.0";
+var filename = "package.json";
 
 //Initializes the application
-() =>
-{
-    parseArgs(process.argv, (results) => {
-	version = results;
-    });
-    loadFile(filename, (results) => {
-	bumpVersion(results, version, (results2) => {
-	    saveFile(results2, filename, (results) => {
-		if (results)
-		    console.err(`failed to bump the module version to ${version}`);
-		else
-		    console.log(`succeeded in bumping the module version to ${version}`);
-	    });
+(function () {
+	(0, _libArgparserJs.parseArgs)(process.argv, function (results) {
+		version = results;
 	});
-    });
-    
-}
+	(0, _libArgparserJs.loadFile)(filename, function (results) {
+		(0, _libArgparserJs.bumpVersion)(results, version, function (results2) {
+			(0, _libArgparserJs.saveFile)(results2, filename, function (results) {
+				if (results) console.err("failed to bump the module version to " + version);else console.log("succeeded in bumping the module version to " + version);
+			});
+		});
+	});
+});

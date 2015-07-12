@@ -49,7 +49,7 @@ describe("ESBump", function(){
 	});
     });
 
-    describe("#commitToLocalGit(message, done)"), function(){
+    describe("#commitToLocalGit(message, done)", function(){
 	ít("should commit changes with the provided message to the local git repo", function(done){
 	    setTimeout(function(){
 		vargs.commitToLocalGit("updating with ESBump to newest version", function(results){
@@ -59,16 +59,25 @@ describe("ESBump", function(){
 	    }, 200);
 	});
     });
-    describe("#addGitTag(tagMessage, done)"), function(){
+    describe("#addGitTag(tagMessage, done)", function(){
 	it("should add a git tag to the local repository with the tagID", function(done){
 	    setTimeout(function(){
-		vargs.addGitTag(tagMessage, function(results){
+		bumper.addGitTag(tagMessage, function(results){
 		    expect(results).to.exist;
 		});
 		done();
 	    }, 200);
 	});
     });
-
+    describe("#pushToRemote(remote, branch, done)", function(){
+	it("should push the changes to the remote git repo with defined branch", function(done){
+	    setTimeout(function(){
+		bumper.pushToRemote(null, null, function(result){
+		    expect(results).to.exist;
+		});
+		done();
+	    }, 200);
+	});
+    });
 });
 
