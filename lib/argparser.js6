@@ -16,13 +16,13 @@ let replacements = {
     "R":"repository"
 };
 
-let parseArgs = (args, done) => {
+export var parseArgs = (args, done) => {
     var targs = ["bogus"].concat(args);
     var results = parse(targs, defaults, replacements);
     return done(results);
 };
 
-let saveFile = (data, filename, done) => {
+export var saveFile = (data, filename, done) => {
     writeFile(filename, data, (err) => {
         if (err) {
             return done(false);
@@ -31,7 +31,7 @@ let saveFile = (data, filename, done) => {
     });
 };
 
-let loadFile = (filename, done) => {
+export var loadFile = (filename, done) => {
     
     exists(filename, (exists) => {
     if (exists) {
@@ -51,7 +51,7 @@ let loadFile = (filename, done) => {
     });
 };
 
-let bumpVersion = (data, newversion, done) => {
+export var bumpVersion = (data, newversion, done) => {
 
     var results = data.version.split(".");
     if (newversion.major >= 0)
@@ -66,5 +66,3 @@ let bumpVersion = (data, newversion, done) => {
     return done(data);
 };
 
-
-export parseArgs, saveFile, loadFile, bumpVersion;
