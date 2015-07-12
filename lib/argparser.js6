@@ -1,4 +1,3 @@
-
 import {parse} from "cltags";
 import {writeFile, exists, stat, open, read, close} from "fs";
 import * as shell from "shelljs/global";
