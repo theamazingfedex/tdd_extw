@@ -17,7 +17,8 @@
   },
   "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
-      "babeller": "babel lib argparser.js6 -o lib/argparser.js && babel app.js6 -o app.js"
+      "babeller": "babel lib/argparser.js6 -o lib/argparser.js && babel app.js6 -o app.js",
+      "gitpush" : "git commit -a -m potato && git push origin master"
   },
   "repository": {
     "type": "git",

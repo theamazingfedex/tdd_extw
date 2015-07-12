@@ -69,10 +69,13 @@ export var bumpVersion = (data, newversion, done) => {
 };
 
 export var commitToLocalGit = (message, done) => {
-
+    try {
     let command = `git commit -a -m "ESBump commit: ${message}"`;
-    shell.exec(command).output;
-    return done(true);
+	shell.exec(command).output;
+	return done(true);
+    } catch (e){
+	return done(false);
+    }
 };
 
 export var addGitTag = (version, message, done) => {
