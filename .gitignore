@@ -1,6 +1,6 @@
 #Untracked Files:
 /node_modules/*
-/node_modules/
-node_modules/
+/node_modules/*
+node_modules/*
 *.js6~
 *.log
