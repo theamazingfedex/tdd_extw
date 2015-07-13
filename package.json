@@ -1,6 +1,6 @@
 {
     "name": "SemVerGitUpdater",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "none here",
     "bin": {
         "esbump": "app.js"
