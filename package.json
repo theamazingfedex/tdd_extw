@@ -9,8 +9,8 @@
     "test": "test"
   },
   "dependencies": {
-    "chai": "^3.0.0",
-    "cltags": "^0.0.2"
+    "cltags": "^0.0.2",
+    "shelljs": "^0.5.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/theamazingfedex/tdd_extw",
   "devDependencies": {
-    "babel-core": "^5.6.19"
+    "babel-core": "^5.6.19",
+    "chai": "^3.0.0"
   }
 }
