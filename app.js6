@@ -22,12 +22,12 @@ let filename = "package.json";
 	bumpVersion(results, version, (results2) => {
 	    saveFile(results2, filename, (results) => {
 		if (!results2)
-		    console.err(`failed to bump the module version to ${version}`);
+		    console.log(`failed to bump the module version to ${version}`);
 		else{
 		    console.log(`succeeded in bumping the module version to ${version}`);
 		    commitToLocalGit(version, (results3) => {
 			if (!results3)
-			  console.err(`failed to commit to local git repository; Is one set-up?`);
+			  console.log(`failed to commit to local git repository; Is one set-up?`);
 			else {
 			    addGitTag(version,`ESBump added git Tag v${version}`, (results4) => {
 				pushToRemote(null, (results) => {
