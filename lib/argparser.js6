@@ -84,7 +84,7 @@ export var commitToLocalGit = (message, done) => {
 };
 
 export var addGitTag = (version, message, done) => {
-    let command = `git tag -a v${version} -m "${message} :: v${version}"`;
+    let command = `git tag -a v${version} -m "${message}"`;
     console.log(shell.exec(command).output);
     return done(`v${version}`);
 };
