@@ -96,7 +96,7 @@ export var bumpVersion = (data, newversion, done) => {
 
 export var commitToLocalGit = (message, done) => {
     console.log(`===Newest Version :: ${message}===`);
-    let command = `git pull && git commit -a`;
+    let command = `git pull && git commit package.json`;
 	if (shell.exec(command).code !== 0) {
 	    shell.echo('Error: Git commit failed');
 	    shell.exit(1);
