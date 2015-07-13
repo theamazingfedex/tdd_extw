@@ -12,12 +12,9 @@
     "chai": "^3.0.0",
     "cltags": "^0.0.2"
   },
-  "devDependencies": {
-    "babel-core": "^5.6.18"
-  },
-  "scripts": {
+   "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
-      "babeller": "babel lib/argparser.js6 -o lib/argparser.js && babel app.js6 -o app.js",
+      "babeller": "babel lib/argparser.js6 -o lib/argparser.js && babel app.js6 -o app.js && npm run gitpush",
       "gitpush" : "git stage * && git commit -a -m Auto_Updated_Project && git push origin master"
   },
   "repository": {

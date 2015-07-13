@@ -1,5 +1,6 @@
 #! /usr/bin/env node
-import "./lib/argparser.js";
+import {parseArgs, loadFile, bumpVersion, saveFile, commitToLocalGit, addGitTag, pushToRemote}
+  from "./lib/argparser.js";
 /***
 launch this app from the command line.
 use the following parameters to update the version following semver guidelines as desired:
@@ -12,8 +13,8 @@ let version = "0.0.0";
 let filename = "package.json";
 
 //Initializes the application
-() =>
-{
+
+	console.log(`initializing`);
     parseArgs(process.argv, (results) => {
 	version = results;
     });
@@ -28,7 +29,7 @@ let filename = "package.json";
 			if (!results3)
 			  console.err(`failed to commit to local git repository; Is one set-up?`);
 			else {
-			    addGitTag(version, message, (results4) => {
+			    addGitTag(version,`ESBump added git Tag v${version}`, (results4) => {
 				pushToRemote(null, (results) => {
 				    console.log(`completed pushing to remote:
 ${results}`);
@@ -41,4 +42,4 @@ ${results}`);
 	});
     });
 
-}
+
