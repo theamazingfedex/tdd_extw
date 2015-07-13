@@ -1,5 +1,5 @@
 #! /usr/bin/env node
-import {parseArgs, loadFile, saveFile, bumpVersion} from "./lib/argparser.js";
+import "./lib/argparser.js";
 /***
 launch this app from the command line.
 use the following parameters to update the version following semver guidelines as desired:
@@ -20,10 +20,23 @@ let filename = "package.json";
     loadFile(filename, (results) => {
 	bumpVersion(results, version, (results2) => {
 	    saveFile(results2, filename, (results) => {
-		if (results)
+		if (!results2)
 		    console.err(`failed to bump the module version to ${version}`);
-		else
+		else{
 		    console.log(`succeeded in bumping the module version to ${version}`);
+		    commitToLocalGit(version, (results3) => {
+			if (!results3)
+			  console.err(`failed to commit to local git repository; Is one set-up?`);
+			else {
+			    addGitTag(version, message, (results4) => {
+				pushToRemote(null, (results) => {
+				    console.log(`completed pushing to remote:
+${results}`);
+				});
+			    });
+			}
+		    });
+		}
 	    });
 	});
     });
