@@ -74,7 +74,7 @@ export var bumpVersion = (data, newversion, done) => {
 };
 
 export var commitToLocalGit = (message, done) => {
-    let command = `git commit -a -m "ESBump commit: ${message}"`;
+    let command = `git pull && git commit -a -m "ESBump commit: ${message}"`;
 	if (shell.exec(command).code !== 0) {
 	    shell.echo('Error: Git commit failed');
 	    shell.exit(1);
