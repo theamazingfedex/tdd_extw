@@ -8,6 +8,10 @@ use the following parameters to update the version following semver guidelines a
   -M : --major : Major version
   -m : --minor : Minor version
   -p : -P : --patch : Patch version
+  --bumpmajor : Bump the major version to the next version
+  --bumpminor : Bump the minor version to the next version
+  --bumppatch : Bump the patch version to the next version
+  --pre-release : Make the current release push as a beta version
 ***/
 let version = "0.0.0";
 let filename = "package.json";
