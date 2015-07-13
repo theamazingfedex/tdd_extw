@@ -1,6 +1,6 @@
 import {parse} from "cltags";
 import {writeFile, exists, stat, open, read, close} from "fs";
-import * as shell from "shelljs/global";
+var shell = require("shelljs");
 
 let defaults = {
     major:-1,
@@ -16,7 +16,10 @@ let replacements = {
     "p":"patch",
     "P":"patch",
     "r":"repository",
-    "R":"repository"
+    "R":"repository",
+    "user":"username",
+    "u":"username",
+    "pass":"password"
 };
 
 export var parseArgs = (args, done) => {
@@ -26,7 +29,7 @@ export var parseArgs = (args, done) => {
 };
 
 export var saveFile = (data, filename, done) => {
-    writeFile(filename, data, (err) => {
+    writeFile(filename, JSON.stringify(data), (err) => {
         if (err) {
             return done(false);
         }
@@ -43,9 +46,9 @@ export var loadFile = (filename, done) => {
                 var buffer = new Buffer(stats.size);
 	read(fd, buffer, 0, buffer.length, null, (error, bytesRead, buffer) => {
             var data = buffer.toString("utf8", 0, buffer.length);
-	    data = JSON.parse(data);
             close(fd);
-	    return done(data);
+	    console.log(`data: ${JSON.stringify(data)}`);
+	    return done(JSON.parse(data));
 		    
                 });
             });
@@ -66,17 +69,18 @@ export var bumpVersion = (data, newversion, done) => {
     if (newversion.patch == -1)
 	results[2] = +results[2]+1;
     data.version = `${results[0]}.${results[1]}.${results[2]}`;
+    console.log(`DataVersion:: ${data.version}`);
     return done(data);
 };
 
 export var commitToLocalGit = (message, done) => {
-    try {
     let command = `git commit -a -m "ESBump commit: ${message}"`;
-	console.log(shell.exec(command).output);
-	return done(true);
-    } catch (e){
-	return done(false);
-    }
+	if (shell.exec(command).code !== 0) {
+	    shell.echo('Error: Git commit failed');
+	    shell.exit(1);
+	    return done(false);
+	}
+ 	return done(true);
 };
 
 export var addGitTag = (version, message, done) => {
@@ -85,7 +89,13 @@ export var addGitTag = (version, message, done) => {
     return done(`v${version}`);
 };
 
-export var pushToRemote = (remote = 'origin', done) => {
-    let command = `git push ${remote} --tags`;
-    return done(shell.exec(command).output);
+export var pushToRemote = (remote = 'origin', user, pass, done) => {
+  
+    let command = `git push origin --tags`;
+	if (shell.exec(command).code !== 0) {
+	    shell.echo('Error: Git commit failed');
+	    shell.exit(1);
+	    return done(false);
+	}
+ 	return done(true);
 };
