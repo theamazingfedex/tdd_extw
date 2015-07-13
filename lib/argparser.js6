@@ -1,6 +1,6 @@
 import {parse} from "cltags";
 import {writeFile, exists, stat, open, read, close} from "fs";
-var shell = require("shelljs");
+let shell = require("shelljs");
 
 let defaults = {
     major:-1,
@@ -89,7 +89,7 @@ export var addGitTag = (version, message, done) => {
     return done(`v${version}`);
 };
 
-export var pushToRemote = (remote = 'origin', user, pass, done) => {
+export var pushToRemote = (remote, user, pass, done) => {
   
     let command = `git push origin --tags`;
 	if (shell.exec(command).code !== 0) {
