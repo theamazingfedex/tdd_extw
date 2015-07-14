@@ -14,7 +14,7 @@
     },
     "scripts": {
         "test": "mocha",
-        "babeller": "babel lib/argparser.js6 -o lib/argparser.js && babel app.js6 -o app.js",
+        "babeller": "babel lib/argparser.jsx -o lib/argparser.js && babel app.jsx -o app.js",
         "gitpush": "git pull && git commit -a -m Auto_Updated_Project && git push origin master"
     },
     "repository": {
