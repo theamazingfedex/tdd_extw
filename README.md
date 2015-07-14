@@ -4,7 +4,7 @@
 <br/>
 <br/>
 <h4>Install</h4>
-To install <b>esbump>/b>, simply clone this repository to a location on your hard disk, then via command line to the directory and run:
+To install <b>esbump</b>, simply clone this repository to a location on your hard disk, then via command line to the directory and run:
 <pre> npm link </pre>
 
 <h4>Usage</h4>
