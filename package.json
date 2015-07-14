@@ -3,7 +3,7 @@
     "version": "1.0.4",
     "description": "none here",
     "bin": {
-        "esbump": "app.js"
+        "esbump": "bin/initializer.js"
     },
     "directories": {
         "test": "test"
@@ -13,9 +13,9 @@
         "shelljs": "^0.5.1"
     },
     "scripts": {
+	"start":"npm run babeller",
         "test": "mocha",
-        "babeller": "babel lib/argparser.jsx -o lib/argparser.js && babel app.jsx -o app.js",
-        "gitpush": "git pull && git commit -a -m Auto_Updated_Project && git push origin master"
+        "babeller": "babel src --out-dir lib"
     },
     "repository": {
         "type": "git",
