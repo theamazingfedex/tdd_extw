@@ -3,7 +3,7 @@
     "version": "1.0.4",
     "description": "none here",
     "bin": {
-        "esbump": "bin/initializer.js"
+        "esbump": "./bin/initializer.js"
     },
     "directories": {
         "test": "test"

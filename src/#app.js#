@@ -62,8 +62,8 @@ export function initialize(){
       return -1;
     }
   );
-//  loadFile(filename, (results) => {
-//	bumpVersion(results, vargs, (results2) => {
+  loadFile(filename, (results) => {
+	bumpVersion(results, vargs, (results2) => {
  	  version = results2.version;
 	  saveFile(results2, filename, (results3) => {
 		if (!results3)

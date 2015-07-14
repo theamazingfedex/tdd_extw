@@ -11,27 +11,56 @@ let replacements = {
     "M":"bumpmajor",
     "m":"bumpminor",
     "p":"bumppatch",
-    "P":"prerelease",
+    "P":"prerelease"
 };
 
 //parseArgs parses the command line args passed to it into a single object and returns it.
-export var parseArgs = (args, done) => {
-    //adding in a bogus value into the args array because CLTags drops the first arg.
-    var targs = ["bogus"].concat(args);
-    var results = parse(targs, defaults, replacements);
-    return done(results);
-};
+//export var parseArgs = (args, done) => {
+//  return new Promise((resolve, reject) => {
+//    
+//    //adding in a bogus value into the args array because CLTags drops the first arg.
+//    var targs = ["bogus"].concat(args);
+//    var results = "default";
+//    try {
+//      results = parse(targs, defaults, replacements);
+//    } catch(e){
+//      reject(Error(`Error: ${e}`));
+//    }
+//    resolve(results);
+//  });
+//};
 
-export var saveFile = (data, filename, done) => {
+export var parseArgs = (args) => {
+  var targs = ["bogus"].concat(args);
+  return parse(targs, defaults, replacements);  
+};
+export var saveFile = (data, filename) => {
+  return new Promise((resolve, reject) => {
     writeFile(filename, JSON.stringify(data, null, 4), (err) => {
-        if (err) {
-            return done(false);
-        }
-	return done(true);
+      if (err) {
+        reject(Error("Error: "+err);
+      }
+      else
+        resolve(true);
     });
+  });
 };
 
-export var loadFile = (filename, done) => {
+//export var saveFile = (data, filename, done) => {
+//    writeFile(filename, JSON.stringify(data, null, 4), (err) => {
+//        if (err) {
+//            return done(false);
+//        }
+//	return done(true);
+//    });
+//};
+
+  export var loadFile = (filename, done) => {
+    return new Promise((resolve, reject) => {
+      
+//    });
+//  };
+//export var loadFile = (filename, done) => {
     
     exists(filename, (exists) => {
     if (exists) {
@@ -42,14 +71,16 @@ export var loadFile = (filename, done) => {
             var data = buffer.toString("utf8", 0, buffer.length);
             close(fd);
 	    //console.log(`data: ${JSON.stringify(data)}`);
-	    return done(JSON.parse(data));
+    	    return done(JSON.parse(data));
 		    
                 });
             });
         });
     }
     });
-};
+    });
+  };
+    
 
 //update the version based off the args parsed from parseArgs
 export var bumpVersion = (data, newversion, done) => {

@@ -1,3 +1,6 @@
+#! /usr/bin/env node
 var app = require("../lib/app.js");
 
-process.exit(app.initialize());
+
+app.initialize();
+//process.exit(app.initialize());
