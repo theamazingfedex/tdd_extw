@@ -1,35 +1,34 @@
 {
-    "name": "SemVerGitUpdater",
-    "version": "1.0.4",
-    "description": "none here",
-    "bin": {
-        "esbump": "./bin/initializer.js"
-    },
-    "directories": {
-        "test": "test"
-    },
-    "dependencies": {
-        "cltags": "^0.0.2",
-        "shelljs": "^0.5.1"
-    },
+  "name": "ESBump",
+  "version": "1.0.4",
+  "description": "Node.js CLI Application to version bump and publish node packages",
+  "bin": {
+    "esbump": "./bin/initializer.js"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "cltags": "^0.0.2",
+    "shelljs": "^0.5.1"
+  },
   "scripts": {
     "preinstall":"npm run build",
-	    "build":"npm run babeller",
-        "test": "mocha",
-        "babeller": "babel src --out-dir lib"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/theamazingfedex/tdd_extw.git"
-    },
-    "author": "Daniel Wood",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/theamazingfedex/tdd_extw/issues"
-    },
-    "homepage": "https://github.com/theamazingfedex/tdd_extw",
-    "devDependencies": {
-        "babel-core": "^5.6.19",
-        "chai": "^3.0.0"
-    }
-}
+	  "build":"npm run babeller",
+    "test": "mocha",
+    "babeller": "babel src --out-dir lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theamazingfedex/tdd_extw.git"
+  },
+  "author": "Daniel Wood",
+  "license": "ISC",
+  "bugs": {
+      "url": "https://github.com/theamazingfedex/tdd_extw/issues"
+  },
+  "homepage": "https://github.com/theamazingfedex/tdd_extw",
+  "devDependencies": {
+      "babel-core": "^5.6.19",
+      "chai": "^3.0.0"
+  }
