@@ -8,10 +8,14 @@ let defaults = {
     branch: "master"
 };
 let replacements = {
-    "M":"bumpmajor",
-    "m":"bumpminor",
-    "p":"bumppatch",
-    "P":"prerelease"
+//    "M":"bumpmajor",
+//    "m":"bumpminor",
+//    "p":"bumppatch",
+//  "P":"prerelease",
+  "pre":"prerelease",
+  "M":"major",
+  "m":"minor",
+  "p":"patch"
 };
 
 //parseArgs parses the command line args passed to it into a single object and returns it.
@@ -38,10 +42,13 @@ export var saveFile = (data, filename) => {
   return new Promise((resolve, reject) => {
     writeFile(filename, JSON.stringify(data, null, 4), (err) => {
       if (err) {
-        reject(Error("Error: "+err);
+        console.log("Error: Failed to save the file\n"+err);
+        reject(Error("Error: Failed to saveFile\n  "+err));
       }
-      else
+      else{
+        console.log("saved the data:: \n"+JSON.stringify(data));
         resolve(true);
+      }
     });
   });
 };
@@ -71,7 +78,7 @@ export var saveFile = (data, filename) => {
             var data = buffer.toString("utf8", 0, buffer.length);
             close(fd);
 	    //console.log(`data: ${JSON.stringify(data)}`);
-    	    return done(JSON.parse(data));
+    	    resolve(JSON.parse(data));
 		    
                 });
             });
@@ -84,71 +91,71 @@ export var saveFile = (data, filename) => {
 
 //update the version based off the args parsed from parseArgs
 export var bumpVersion = (data, newversion, done) => {
+  return new Promise((resolve, reject) => {
     var passthrough = false;
     var ifhaspre = data.version.split("-");
     var results = data.version.split(".");
     var prereleaseinfo = 0;
-    if (ifhaspre[1])
-    {
-	results = ifhaspre[0].split(".");
-	prereleaseinfo = +ifhaspre[1].split(".")[1] + 1;
-
+    if (ifhaspre[1]) {
+	    results = ifhaspre[0].split(".");
+	    prereleaseinfo = +ifhaspre[1].split(".")[1] + 1;
     }
-    if (newversion.major >= 0)
-	results[0] = newversion.majorv;
-    if (newversion.minor >= 0)
-	results[1] = newversion.minorv;
-    if (newversion.patch >= 0)
-	results[2] = newversion.patchv;
-
-    if (newversion.bumpmajor){
-	results[0] = +results[0] +1;
-	passthrough = true;
+    if (newversion.major){
+	    results[0] = +results[0] +1;
+      results[1] = 0;
+      results[2] = 0;
+	    passthrough = true;
     }
-    if (newversion.bumpminor){
-	results[1] = +results[1] +1;
-	passthrough = true;
+    if (newversion.minor){
+	    results[1] = +results[1] +1;
+      results[2] = 0;
+	    passthrough = true;
     }
-    if (newversion.bumppatch){
-	results[2] = +results[2] +1;
-	passthrough = true;
+    if (newversion.patch){
+	    results[2] = +results[2] +1;
+      passthrough = true;
     }
 
     data.version = `${results[0]}.${results[1]}.${results[2]}`;
     
     if (newversion.prerelease && !passthrough){
-	var presults = `-${newversion.prerelease}.${prereleaseinfo}`;
+	    var presults = `-${newversion.prerelease}.${prereleaseinfo}`;
     	data.version = `${results[0]}.${results[1]}.${results[2]}${presults}`;
     }
     
-        console.log(`DataVersion:: ${data.version}`);
-    return done(data);
+    console.log(`DataVersion:: ${data.version}`);
+    resolve(data);
+  });
 };
 
 export var commitToLocalGit = (message, done) => {
-    console.log(`===Newest Version :: ${message}===`);
+  return new Promise((resolve, reject) => {
+    console.log(`===newest version :: ${message}===`);
     let command = `git pull && git commit package.json`;
 	if (shell.exec(command).code !== 0) {
-	    shell.echo('Error: Git commit failed');
-	    shell.exit(1);
-	    return done(false);
+//	    shell.echo('Error: Git commit failed');
+	  reject(Error("Error: failed to commit to local git repo"));
 	}
- 	return done(true);
+ 	  resolve(true);
+  });
 };
 
 export var addGitTag = (version, message, done) => {
+  return new Promise((resolve, reject) => {
     let command = `git tag -a v${version}`;
     console.log(shell.exec(command).output);
-    return done(`v${version}`);
+    resolve(`v${version}`);
+  });
 };
 
 export var pushToRemote = (remote, user, pass, done) => {
-  
+  return new Promise((resolve, reject) => {
     let command = `git push origin --tags`;
 	if (shell.exec(command).code !== 0) {
 	    shell.echo('Error: Git commit failed');
 	    shell.exit(1);
-	    return done(false);
+	    reject(false);
 	}
- 	return done(true);
+ 	  resolve(true);
+  });
 };

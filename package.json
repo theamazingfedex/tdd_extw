@@ -12,8 +12,9 @@
         "cltags": "^0.0.2",
         "shelljs": "^0.5.1"
     },
-    "scripts": {
-	"start":"npm run babeller",
+  "scripts": {
+    "preinstall":"npm run build",
+	    "build":"npm run babeller",
         "test": "mocha",
         "babeller": "babel src --out-dir lib"
     },

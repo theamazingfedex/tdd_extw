@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 import {parseArgs, loadFile, bumpVersion, saveFile, commitToLocalGit, addGitTag, pushToRemote}
-  from "./argparser.js";
+  from "./esbump-toolkit.js";
 /***
 launch this app from the command line.
 use the following parameters to update the version following semver guidelines as desired:
@@ -16,76 +16,26 @@ use the following parameters to update the version following semver guidelines a
 
 let version = "0.0.0";
 let filename = "package.json";
-let vargs = "none";
+let initial_data = "none";
 //Initializes the application
 export function initialize(){
   console.log(`initializing`);
   try {
-    vargs = parseArgs(process.argv);
+    initial_data = parseArgs(process.argv);
   } catch(e) {
     return e;
   }
-  loadFile(filename).then(
-    (resolve_fileData) => { /**success**/
-      return bumpVersion(resolve_fileData, vargs);
-    },
-    (reject_fileData) => { /**failure**/
-      return -1;
-    }
-  ).then(
-    (resolve_bump) => {
-      version = resolve_bump.version;
-      return saveFile(resolve_bump, version);
-    },
-    (reject) => {
-      return -1;
-    }
-  ).then(
-    (resolve) => {
-      return commitToLocalGit(version);
-    },
-    (reject) => {
-      return -1;
-    }
-  ).then(
-    (resolve) => {
-      return addGitTag(version);
-    },
-    (reject) => {
-      return -1;
-    }
-  ).then(
-    (resolve) => {
-      return pushToRemote();
-    },
-    (reject) => {
-      return -1;
-    }
-  );
-//  loadFile(filename, (results) => {
-//	bumpVersion(results, vargs, (results2) => {
- 	  version = results2.version;
-	  saveFile(results2, filename, (results3) => {
-		if (!results3)
-		    console.log(`failed to bump the module version to ${version}`);
-		else{
-		    console.log(`succeeded in bumping the module version to ${version}`);
-		    commitToLocalGit(version, (results4) => {
-			if (!results4)
-			  console.log(`failed to commit to local git repository; Is one set-up?`);
-			else {
-			    addGitTag(version,`ESBump added git Tag v${version}`, (results5) => {
-				pushToRemote(null,vargs.username, vargs.password, (results6) => {
-				    console.log(`completed pushing to remote:
-${results6}`);
-				    return 0;
-				});
-			    });
-			}
-		    });
-		}
-	    });
-	});
-    });
-};
 
+  return loadFile(filename)
+    .then(fileData => bumpVersion(fileData, initial_data))
+    .then(bumped => {
+      version = bumped.version;
+      console.log(`bumped version::: ${version}`);
+      return saveFile(bumped, "package.json");
+    })
+    .then(() => commitToLocalGit(version))
+    .then(() => addGitTag(version))
+    .then(() => pushToRemote(null,null,null))
+    .catch(err => 1);
+  
+};
