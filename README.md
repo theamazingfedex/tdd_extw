@@ -27,5 +27,6 @@ To use <b>esbump</b> from command line after installation, and to bump the patch
 <li>bumping the version to a pre-release by executing
 <pre> esbump --prerelease <alpha|beta|foo|bar></pre>
 
+<br/><br/>
 <h2>License</h2>
 <b>MIT</b>
