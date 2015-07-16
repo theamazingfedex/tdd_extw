@@ -1,38 +1,18 @@
 import {parse} from "cltags";
 import {writeFile, exists, stat, open, read, close} from "fs";
-//import  from "child_process" as shell;
-var shell = require("shelljs");
+import * as shell from "shelljs";
+//var shell = require("shelljs");
 let defaults = {
     repository: "",
     remote: "origin",
     branch: "master"
 };
 let replacements = {
-//    "M":"bumpmajor",
-//    "m":"bumpminor",
-//    "p":"bumppatch",
-//  "P":"prerelease",
   "pre":"prerelease",
   "M":"major",
   "m":"minor",
   "p":"patch"
 };
-
-//parseArgs parses the command line args passed to it into a single object and returns it.
-//export var parseArgs = (args, done) => {
-//  return new Promise((resolve, reject) => {
-//    
-//    //adding in a bogus value into the args array because CLTags drops the first arg.
-//    var targs = ["bogus"].concat(args);
-//    var results = "default";
-//    try {
-//      results = parse(targs, defaults, replacements);
-//    } catch(e){
-//      reject(Error(`Error: ${e}`));
-//    }
-//    resolve(results);
-//  });
-//};
 
 export var parseArgs = (args) => {
   var targs = ["bogus"].concat(args);
@@ -133,7 +113,6 @@ export var commitToLocalGit = (message, done) => {
     console.log(`===newest version :: ${message}===`);
     let command = `git pull && git commit package.json`;
 	if (shell.exec(command).code !== 0) {
-//	    shell.echo('Error: Git commit failed');
 	  reject(Error("Error: failed to commit to local git repo"));
 	}
  	  resolve(true);
@@ -150,7 +129,7 @@ export var addGitTag = (version, message, done) => {
 
 export var pushToRemote = (remote, user, pass, done) => {
   return new Promise((resolve, reject) => {
-    let command = `git push origin --tags`;
+    let command = `git push --follow-tags`;
 	if (shell.exec(command).code !== 0) {
 	    shell.echo('Error: Git commit failed');
 	    shell.exit(1);
