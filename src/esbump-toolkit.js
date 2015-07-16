@@ -1,70 +1,54 @@
-import {parse} from "cltags";
-import {writeFile, exists, stat, open, read, close} from "fs";
-import * as shell from "shelljs";
-//var shell = require("shelljs");
-let defaults = {
-    repository: "",
-    remote: "origin",
-    branch: "master"
-};
-let replacements = {
-  "pre":"prerelease",
-  "M":"major",
-  "m":"minor",
-  "p":"patch"
-};
+  import {parse} from "cltags";
+  import {writeFile, exists, stat, open, read, close} from "fs";
+  import * as shell from "shelljs";
+  //var shell = require("shelljs");
+  let defaults = {
+      repository: "",
+      remote: "origin",
+      branch: "master"
+  };
+  let replacements = {
+    "P":"prerelease",
+    "M":"major",
+    "m":"minor",
+    "p":"patch"
+  };
 
-export var parseArgs = (args) => {
-  var targs = ["bogus"].concat(args);
-  return parse(targs, defaults, replacements);  
-};
-export var saveFile = (data, filename) => {
-  return new Promise((resolve, reject) => {
-    writeFile(filename, JSON.stringify(data, null, 4), (err) => {
-      if (err) {
-        console.log("Error: Failed to save the file\n"+err);
-        reject(Error("Error: Failed to saveFile\n  "+err));
-      }
-      else{
-        console.log("saved the data:: \n"+JSON.stringify(data));
-        resolve(true);
-      }
+  export var parseArgs = (args) => {
+    var targs = ["bogus"].concat(args);
+    return parse(targs, defaults, replacements);  
+  };
+  export var saveFile = (data, filename) => {
+    return new Promise((resolve, reject) => {
+      writeFile(filename, JSON.stringify(data, null, 4), (err) => {
+        if (err) {
+          console.log("Error: Failed to save the file\n"+err);
+          reject(Error("Error: Failed to saveFile\n  "+err));
+        }
+        else{
+          console.log("saved the data:: \n"+JSON.stringify(data));
+          resolve(true);
+        }
+      });
     });
-  });
-};
-
-//export var saveFile = (data, filename, done) => {
-//    writeFile(filename, JSON.stringify(data, null, 4), (err) => {
-//        if (err) {
-//            return done(false);
-//        }
-//	return done(true);
-//    });
-//};
+  };
 
   export var loadFile = (filename, done) => {
     return new Promise((resolve, reject) => {
-      
-//    });
-//  };
-//export var loadFile = (filename, done) => {
-    
-    exists(filename, (exists) => {
-    if (exists) {
-        stat(filename, (error, stats) => {
+      exists(filename, (exists) => {
+        if (exists) {
+          stat(filename, (error, stats) => {
             open(filename, "r", (error, fd) => {
-                var buffer = new Buffer(stats.size);
-	read(fd, buffer, 0, buffer.length, null, (error, bytesRead, buffer) => {
-            var data = buffer.toString("utf8", 0, buffer.length);
-            close(fd);
-	    //console.log(`data: ${JSON.stringify(data)}`);
-    	    resolve(JSON.parse(data));
-		    
+              var buffer = new Buffer(stats.size);
+	            read(fd, buffer, 0, buffer.length, null, (error, bytesRead, buffer) => {
+                var data = buffer.toString("utf8", 0, buffer.length);
+                close(fd);
+    	          resolve(JSON.parse(data));
                 });
             });
-        });
-    }
-    });
+          });
+        }
+      });
     });
   };
     
@@ -108,33 +92,33 @@ export var bumpVersion = (data, newversion, done) => {
   });
 };
 
-export var commitToLocalGit = (message, done) => {
-  return new Promise((resolve, reject) => {
-    console.log(`===newest version :: ${message}===`);
-    let command = `git pull && git commit package.json`;
-	if (shell.exec(command).code !== 0) {
-	  reject(Error("Error: failed to commit to local git repo"));
-	}
- 	  resolve(true);
-  });
-};
+  export var commitToLocalGit = (message, done) => {
+    return new Promise((resolve, reject) => {
+      console.log(`===newest version :: ${message}===`);
+      let command = `git pull && git commit package.json`;
+  	  if (shell.exec(command).code !== 0) {
+  	    reject(Error("Error: failed to commit to local git repo"));
+  	  }
+   	  resolve(true);
+    });
+  };
 
-export var addGitTag = (version, message, done) => {
-  return new Promise((resolve, reject) => {
-    let command = `git tag -a v${version}`;
-    console.log(shell.exec(command).output);
-    resolve(`v${version}`);
-  });
-};
+  export var addGitTag = (version, message, done) => {
+    return new Promise((resolve, reject) => {
+      let command = `git tag -a v${version}`;
+      shell.exec(command).output;
+      resolve(`v${version}`);
+    });
+  };
 
-export var pushToRemote = (remote, user, pass, done) => {
-  return new Promise((resolve, reject) => {
-    let command = `git push --follow-tags`;
-	if (shell.exec(command).code !== 0) {
-	    shell.echo('Error: Git commit failed');
-	    shell.exit(1);
-	    reject(false);
-	}
- 	  resolve(true);
-  });
-};
+  export var pushToRemote = (remote, user, pass, done) => {
+    return new Promise((resolve, reject) => {
+      let command = `git push --follow-tags`;
+  	  if (shell.exec(command).code !== 0) {
+  	    shell.echo('Error: Git commit failed');
+  	    shell.exit(1);
+  	    reject(false);
+  	  }
+   	  resolve(true);
+    });
+  };

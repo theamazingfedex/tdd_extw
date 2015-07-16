@@ -1,7 +1,7 @@
 {
-  "name": "semver-esbump",
+  "name": "semverbump",
   "version": "1.0.4",
-  "description": "ESBump: Node.js CLI Application to version bump and publish node packages",
+  "description": "SemVer-ESBump: Node.js ES6 CLI Application to version bump and publish node packages",
   "preferGlobal":"true",
   "bin": {
     "semverbump": "./bin/initializer.js"
