@@ -1,8 +1,8 @@
 {
   "name": "semverbump",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "SemVer-ESBump: Node.js ES6 CLI Application to version bump and publish node packages",
-  "preferGlobal":"true",
+  "preferGlobal": "true",
   "bin": {
     "semverbump": "./bin/initializer.js"
   },
@@ -14,8 +14,8 @@
     "shelljs": "^0.5.1"
   },
   "scripts": {
-    "preinstall":"npm run build",
-	  "build":"npm run babeller",
+    "preinstall": "npm run build",
+    "build": "npm run babeller",
     "test": "mocha",
     "babeller": "babel src --out-dir lib"
   },
@@ -25,13 +25,18 @@
   },
   "author": "Daniel Wood <daniel.a.wood.jr@gmail.com>",
   "license": "MIT",
-  "keywords":["esbump", "semver", "version", "bump"],
+  "keywords": [
+    "esbump",
+    "semver",
+    "version",
+    "bump"
+  ],
   "bugs": {
-      "url": "https://github.com/theamazingfedex/tdd_extw/issues"
+    "url": "https://github.com/theamazingfedex/tdd_extw/issues"
   },
   "homepage": "https://github.com/theamazingfedex/tdd_extw",
   "devDependencies": {
-      "babel-core": "^5.6.19",
-      "chai": "^3.0.0"
+    "babel-core": "^5.6.19",
+    "chai": "^3.0.0"
   }
 }
