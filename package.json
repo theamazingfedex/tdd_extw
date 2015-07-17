@@ -11,8 +11,7 @@
   },
   "dependencies": {
     "child-process-promise": "^1.1.0",
-    "cltags": "^0.0.2",
-    "shelljs": "^0.5.1"
+    "cltags": "^0.0.2"
   },
   "scripts": {
     "preinstall": "npm run build",
