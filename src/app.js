@@ -1,6 +1,8 @@
 #! /usr/bin/env node
-import {parseArgs, loadFile, bumpVersion, saveFile, commitToLocalGit, addGitTag, pushToRemote}
-  from "./esbump-toolkit.js";
+import {parseArgs, bumpVersion} from "./esbump-toolkit.js";
+import {saveFile, loadFile} from "./fileio.js";
+import {commitToLocalGit, addGitTag, pushToRemote} from "./gitcontrol.js";
+
 /***
 launch this app from the command line.
 use the following parameters to update the version following semver guidelines as desired:
@@ -36,6 +38,6 @@ export function initialize(){
     .then(() => commitToLocalGit(version))
     .then(() => addGitTag(version))
     .then(() => pushToRemote(null,null,null))
-    .catch(err => 1);
+    .catch(err => Error(err));
   
 };
